@@ -3,56 +3,45 @@
 // Удаление пробелов автоматом происходит.
 // Сделал локальный обзор операторов. 'string' хочется дважды использовать.
 
-{const getCheckString = (string, amountLetters) => {
-  const newString = string.replaceAll(' ', '');
+const checkStringLength = (str, maxLength) => str.length <= maxLength;
 
-  if (newString.length < amountLetters) {
-    return true;
-  }
-
-  if (newString.length >= amountLetters) {
-    return false;
-  }
-};
-
-getCheckString('Привет, как дела', 15); //true
-getCheckString('Привет, как дела', 14); //false
-}
+checkStringLength ('Привет, как дела', 15); //true
+checkStringLength ('Привет, как дела', 14); //false
+checkStringLength('проверяемая строка', 18); // true
 
 
 // Функция для проверки, является ли строка палиндромом.
 // Удаление пробелов автоматом происходит
 // Регистры не учитываются
 
-{const getPalindrome = (string) => {
-  const newString = string.toLowerCase().replaceAll(' ', '');
+const checkPalindrome = (string) => {
+  const newString = string.toLowerCase().replace(/\s/g, '');
   const reverseString = newString.split('').reverse().join('');
-  if (newString === reverseString) {
-    return true;
-  }
-
-  return false;
+  return newString === reverseString;
 };
 
-getPalindrome('sйй'); //false
-getPalindrome('s'); //true
-getPalindrome('ДоВоД'); //true
-}
+checkPalindrome('sйй'); //false
+checkPalindrome('s'); //true
+checkPalindrome('ДоВоД'); //true
 
 
 // Функция для извлечения целого положительного числа из строк
 // Пробелы, длинные строки учитываются с помощью Global range
 // Класс /d = минус все слова
 
-{const leaveOnlyLetters = (string) => {
-  const newString = string.replace(/\D/g, '');
-  if (newString.length === 0) {
+const leaveOnlyLetters = (input) => {
+  const str = String(input);
+  const digits = str.match(/\d/g);
+  if (!digits) {
     return NaN;
   }
-  return newString;
+
+  const result = parseInt(digits.join(''), 10);
+
+  return result;
 };
 
 leaveOnlyLetters('!@#$%   ^&*()      _+=-~[]{}       ;:/.,<>?|""      1234567890'); //1234567890
 leaveOnlyLetters('!@#$%   ^&*()      _+=-~[]{}       ;:/.,<>?|""      '); //NaN
 
-}
+
