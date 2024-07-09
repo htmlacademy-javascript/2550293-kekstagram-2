@@ -12,6 +12,15 @@ const NAMES = [
   'Евгения', 'Биргит', 'Яэль', 'Чара', 'Глафира', 'Ольга', 'Геннадий', 'Устин', 'Филипп'
 ];
 
+const DESCRIPTIONS = [
+  'Красивый закат над морем.',
+  'Уютное кафе в центре города.',
+  'Горы в тумане на рассвете.',
+  'Старинный замок на фоне голубого неба.',
+  'Цветущий сад весной.',
+  'Вечерний город с огнями.'
+];
+
 const getRandomInteger = (min, max) => {
   const lower = Math.ceil(Math.min(min, max));
   const upper = Math.floor(Math.max(min, max));
@@ -86,6 +95,7 @@ const createPhoto = () => {
     id,
     url,
     likes: getRandomInteger(MIN_NUMBERS_LIKES, MAX_NUMBERS_LIKES),
+    description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)],
     comments: createComments()
   };
 };
