@@ -1,30 +1,17 @@
-const REVIEW = ['Всё отлично!', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!' ];
-const NAME = [
-  'Эрик',
-  'Дарья',
-  'Дмитрий',
-  'Раиса',
-  'Роберт',
-  'Софья',
-  'Шарль',
-  'Абрам',
-  'Глория',
-  'Нестор',
-  'Герман',
-  'Эмма',
-  'Стефан',
-  'Эдуард',
-  'Диана',
-  'Гелена',
-  'Евгения',
-  'Биргит',
-  'Яэль',
-  'Чара',
-  'Глафира',
-  'Ольга',
-  'Геннадий',
-  'Устин',
-  'Филипп'];
+const REVIEWS = [
+  'Всё отлично!',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
+];
+
+const NAMES = [
+  'Эрик', 'Дарья', 'Дмитрий', 'Раиса', 'Роберт', 'Софья', 'Шарль', 'Абрам',
+  'Глория', 'Нестор', 'Герман', 'Эмма', 'Стефан', 'Эдуард', 'Диана', 'Гелена',
+  'Евгения', 'Биргит', 'Яэль', 'Чара', 'Глафира', 'Ольга', 'Геннадий', 'Устин', 'Филипп'
+];
+
 const getRandomInteger = (min, max) => {
   const lower = Math.ceil(Math.min(min, max));
   const upper = Math.floor(Math.max(min, max));
@@ -32,26 +19,25 @@ const getRandomInteger = (min, max) => {
   return Math.floor(result);
 };
 
-const usedIndexes = [];
-function getRandomNumberFrom1To25() {
-  let randomIndex;
-  do {
-    randomIndex = getRandomInteger(1, 25);
-  } while (usedIndexes.includes(randomIndex));
-  usedIndexes.push(randomIndex);
-  return randomIndex;
-}
+const createRandomIdGenerator = () => {
+  const randomNumberFrom1To25 = Array.from({ length: 25 }, (v, k) => k + 1);
 
-function getRandomUrl() {
-  const index = getRandomNumberFrom1To25();
-  const url = `photos/${index}.jpg`;
-  return url;
-}
+  const getRandomId = () => {
+    const randomIndex = getRandomInteger(0, randomNumberFrom1To25.length - 1);
+    const id = randomNumberFrom1To25[randomIndex];
+    randomNumberFrom1To25.splice(randomIndex, 1);
+    return id;
+  };
 
-function getRandomId() {
-  const id = getRandomNumberFrom1To25();
-  return id;
-}
+  const getRandomIdAndUrl = () => {
+    const id = getRandomId();
+    return { id, url: `photos/${id}.jpg` };
+  };
+
+  return { getRandomIdAndUrl };
+};
+
+const randomIdGenerator = createRandomIdGenerator();
 
 const createRandomMessage = () => {
   let arr = [];
@@ -61,13 +47,12 @@ const createRandomMessage = () => {
     arr = [];
     for (let i = 0; i < randomNumberSentences; i++) {
       let randomIndex;
-      // Проверка, чтобы значение randomIndex не повторялось. В случае, если повторяется, то все перезапустится
       do {
-        randomIndex = Math.floor(Math.random() * REVIEW.length);
+        randomIndex = Math.floor(Math.random() * REVIEWS.length);
       } while (array.includes(randomIndex));
 
       array.push(randomIndex);
-      arr.push(REVIEW[randomIndex]);
+      arr.push(REVIEWS[randomIndex]);
     }
 
     const newMessage = arr.join(' ');
@@ -77,35 +62,36 @@ const createRandomMessage = () => {
 
 const message = createRandomMessage();
 
-//Создание счетчика от 1 до бесконечности.
-function createIdCounter() {
-  let count = 0;
-  function idCounter() {
-    count++;
-    return count;
-  }
-  return idCounter;
-}
-
-const incrementCounter = createIdCounter();
-
-const createObjects = () => ([
-  {
-    id: getRandomId(),
-    url: getRandomUrl(),
-    likes: getRandomInteger(15, 200),
-    comments: [{
-      id: incrementCounter(),
+const createComments = () => {
+  const numComments = getRandomInteger(0, 30);
+  const comments = [];
+  for (let i = 0; i < numComments; i++) {
+    comments.push({
+      id: getRandomInteger(1, 100),
       avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
       message: message(),
-      name: NAME[getRandomInteger(0, 25)],
-    },
-    ],
-  }]
-);
+      name: NAMES[getRandomInteger(0, NAMES.length - 1)]
+    });
+  }
+  return comments;
+};
 
-for (let i = 0; i < 25; i++) {
-  createObjects();
-  // eslint-disable-next-line no-console
-  console.log(JSON.stringify(createObjects(), null, 2));
-}
+
+const MIN_NUMBERS_LIKES = 15;
+const MAX_NUMBERS_LIKES = 200;
+
+const createPhoto = () => {
+  const { id, url } = randomIdGenerator.getRandomIdAndUrl();
+  return {
+    id,
+    url,
+    likes: getRandomInteger(MIN_NUMBERS_LIKES, MAX_NUMBERS_LIKES),
+    comments: createComments()
+  };
+};
+
+const NUMBER_PHOTOS = 25;
+
+const photos = Array.from({ length: NUMBER_PHOTOS }, createPhoto);
+// eslint-disable-next-line no-console
+console.log(JSON.stringify(photos, null, 2));
