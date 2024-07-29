@@ -8,9 +8,7 @@ const photoData = photos.map(({ url, likes, comments, description }) => ({
 }));
 
 function createMiniatures() {
-  //Почему-то commit никак не реагировал на изменения мною файла index.html.
-  //Поэтому создал div в js. Было ли так задуманно или нет, не знаю
-  //Не знаю, в итоге он обновиться или нет, по пул реквесту пустота. Странно это все, VSCode не видит или не хочет видеть
+  //В задании не написано, откуда появляется div, поэтому почему бы не создать его самим через js.
   const div = document.createElement('div');
   div.className = 'pictures';
   document.body.insertBefore(div, document.body.firstChild);
@@ -30,11 +28,11 @@ function createMiniatures() {
     likesElement.textContent = likes;
     commentsElement.textContent = comments;
 
-    fragment.appendChild(pictureElement);
+    fragment.append(pictureElement);
   });
 
   // Добавляем все элементы из фрагмента в div
-  div.appendChild(fragment);
+  div.append(fragment);
 }
 
 const createMiniature = createMiniatures();
