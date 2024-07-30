@@ -1,5 +1,11 @@
-import {photos} from './data.js';
-import {createMiniature} from './createMiniatures.js';
-// eslint-disable-next-line no-console
-console.log(JSON.stringify(photos, null, 2));
-createMiniature();
+import { createPhoto, NUMBER_PHOTOS} from './data.js';
+import { createMiniatures } from './createMiniatures.js';
+
+
+const createPhotos = () => Array.from({ length: NUMBER_PHOTOS }, (item, index) => createPhoto(index + 1));
+
+const photos = createPhotos();
+export {photos};
+/* eslint-disable no-console */
+console.log(photos);
+createMiniatures();
