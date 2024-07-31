@@ -91,4 +91,4 @@ const photos = createPhotos();
 // eslint-disable-next-line no-console
 console.log(JSON.stringify(photos, null, 2));
 
-export {photos};
+export {createPhotos};
