@@ -1,10 +1,8 @@
-import {photos} from './main.js';
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const picturesContainer = document.querySelector('.pictures');
+const fragment = document.createDocumentFragment();
 
-const createMiniatures = () => {
-  const fragment = document.createDocumentFragment();
-  const picturesContainer = document.querySelector('.pictures');
-
+const createMiniatures = (photos) => {
   photos.forEach(({ url, likes, comments, description }) => {
     const pictureElement = pictureTemplate.cloneNode(true);
     const imgElement = pictureElement.querySelector('.picture__img');
@@ -22,5 +20,4 @@ const createMiniatures = () => {
   picturesContainer.appendChild(fragment);
 };
 
-const createMiniature = createMiniatures();
-export {createMiniature};
+export {createMiniatures};

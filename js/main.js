@@ -1,11 +1,6 @@
-import { createPhoto, NUMBER_PHOTOS} from './data.js';
-import { createMiniatures } from './createMiniatures.js';
-
-
-const createPhotos = () => Array.from({ length: NUMBER_PHOTOS }, (item, index) => createPhoto(index + 1));
-
+// eslint-disable-next-line no-unused-vars
+import { createPhoto} from './data.js';
+import { createMiniatures } from './create-miniatures.js';
+/*global createPhotos*/
 const photos = createPhotos();
-export {photos};
-/* eslint-disable no-console */
-console.log(photos);
-createMiniatures();
+createMiniatures(photos);
