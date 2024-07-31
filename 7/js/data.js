@@ -1,4 +1,4 @@
-import {getRandomElement, getRandomInteger} from './util';
+import {getRandomElement, getRandomInteger} from './util.js';
 
 // Список констант
 const REVIEWS = [
