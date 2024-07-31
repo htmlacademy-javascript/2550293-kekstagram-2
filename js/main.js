@@ -1,3 +1,4 @@
-import {photos} from './data.js';
-// eslint-disable-next-line no-console
-console.log(JSON.stringify(photos, null, 2));
+import { createPhotos} from './data.js';
+import { createMiniatures } from './create-miniatures.js';
+const photos = createPhotos();
+createMiniatures(photos);
