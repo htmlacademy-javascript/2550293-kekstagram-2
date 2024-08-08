@@ -1,4 +1,5 @@
-import { createPhotos} from './data.js';
-import { createMiniatures } from './create-miniatures.js';
-const photos = createPhotos();
-createMiniatures(photos);
+import { initGallery} from './gallery.js';
+import { photos } from './data.js';
+document.addEventListener('DOMContentLoaded', () => {
+  initGallery(photos);
+});
