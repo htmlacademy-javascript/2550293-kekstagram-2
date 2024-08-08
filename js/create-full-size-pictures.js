@@ -39,28 +39,28 @@ const openBigPicture = (photo) => {
     }
   });
 
-  function closeBigPicture() {
-    bigPicture.classList.add('hidden');
-    body.classList.remove('modal-open');
-    document.removeEventListener('keydown', onEscKeydown);
-  }
-
-
-  function onEscKeydown(e) {
-    if (e.key === 'Escape') {
-      closeBigPicture();
-    }
-  }
-
-  function closeButtonClick (evt) {
-    if (evt.target.matches('.big-picture__cancel')) {
-      closeBigPicture();
-    }
-  }
-
   document.addEventListener('keydown', onEscKeydown);
   document.addEventListener('click', closeButtonClick);
-
 };
+
+function closeBigPicture() {
+  bigPicture.classList.add('hidden');
+  body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onEscKeydown);
+  document.removeEventListener('click', closeButtonClick);
+}
+
+
+function onEscKeydown(e) {
+  if (e.key === 'Escape' || e.key === 'Esc') {
+    closeBigPicture();
+  }
+}
+
+function closeButtonClick (evt) {
+  if (evt.target.matches('.big-picture__cancel')) {
+    closeBigPicture();
+  }
+}
 
 export { openBigPicture };
