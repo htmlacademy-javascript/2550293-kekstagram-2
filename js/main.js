@@ -4,5 +4,5 @@ import { initGallery } from './gallery.js';
 
 const photos = createPhotos();
 
-createMiniatures(photos);
+createMiniatures(photos.slice(0, 25));
 initGallery(photos);
