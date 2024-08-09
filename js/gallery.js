@@ -9,6 +9,9 @@ const initGallery = (photos) => {
   picturesContainer.addEventListener('click', (evt) => {
     evt.preventDefault();
     const pictureElement = evt.target.closest('.picture');
+    if (!pictureElement) {
+      return;
+    }
 
     const id = parseInt(pictureElement.dataset.id, 10);
     const photo = photos.find((item) => item.id === id);

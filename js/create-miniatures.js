@@ -3,14 +3,14 @@ const picturesContainer = document.querySelector('.pictures');
 
 const createMiniatures = (photos) => {
   const fragment = document.createDocumentFragment();
-  photos.forEach(({ id, url, likes, comments, message }) => {
+  photos.forEach(({ id, url, likes, comments, description }) => {
     const pictureElement = pictureTemplate.cloneNode(true);
     const imgElement = pictureElement.querySelector('.picture__img');
     const likesElement = pictureElement.querySelector('.picture__likes');
     const commentsElement = pictureElement.querySelector('.picture__comments');
 
     imgElement.src = url;
-    imgElement.alt = message;
+    imgElement.alt = description;
     likesElement.textContent = likes;
     commentsElement.textContent = comments.length;
 
