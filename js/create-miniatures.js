@@ -2,6 +2,7 @@ const pictureTemplate = document.querySelector('#picture').content.querySelector
 const picturesContainer = document.querySelector('.pictures');
 
 const createMiniatures = (photos) => {
+
   const fragment = document.createDocumentFragment();
   photos.forEach(({ id, url, likes, comments, description }) => {
     const pictureElement = pictureTemplate.cloneNode(true);
