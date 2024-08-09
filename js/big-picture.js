@@ -16,12 +16,8 @@ const totalCountElement = document.querySelector('.social__comment-total-count')
 const shownCountElement = document.querySelector('.social__comment-shown-count');
 
 const updateCommentCount = (shownCount, totalCount) => {
-  if (shownCountElement && totalCountElement) {
-    shownCountElement.textContent = shownCount;
-    totalCountElement.textContent = totalCount;
-  } else {
-    console.error('Не удалось найти элементы для обновления количества комментариев.');
-  }
+  shownCountElement.textContent = shownCount;
+  totalCountElement.textContent = totalCount;
 };
 const renderComment = ({ avatar, name, message }) => {
   const commentTemplate = document.querySelector('#comment-template').content.querySelector('.social__comment');
