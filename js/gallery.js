@@ -1,10 +1,8 @@
-import { createMiniatures } from './create-miniatures.js';
-import { openBigPicture } from './create-full-size-pictures.js';
+import { openBigPicture } from './big-picture.js';
 
 const picturesContainer = document.querySelector('.pictures');
 
 const initGallery = (photos) => {
-  createMiniatures(photos);
 
   picturesContainer.addEventListener('click', (evt) => {
     evt.preventDefault();
