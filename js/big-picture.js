@@ -1,6 +1,7 @@
-//2
 import './create-miniatures.js';
 import { isEscapeKey } from './util.js';
+
+const DEFAULT_COMMENTS_COUNT = 5;
 
 const bigPictureImg = document.querySelector('.big-picture__img img');
 const bigPicture = document.querySelector('.big-picture');
@@ -16,7 +17,6 @@ const totalCountElement = document.querySelector('.social__comment-total-count')
 const shownCountElement = document.querySelector('.social__comment-shown-count');
 const commentTemplate = document.querySelector('#comment-template').content.querySelector('.social__comment');
 const loadMoreButton = document.querySelector('.comments-loader');
-const DEFAULT_COMMENTS_COUNT = 5;
 const commentsContainer = document.querySelector('.social__comments');
 
 const updateCommentCount = (shownCount, totalCount) => {
@@ -90,6 +90,7 @@ const closeBigPicture = () => {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeydown);
+  closeButton.removeEventListener('click', onButtonClick);
 };
 
 function onButtonClick () {
