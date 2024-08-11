@@ -37,7 +37,7 @@ const renderComment = ({ avatar, name, message }) => {
 const renderComments = (comments) => {
   let commentsCount = 0;
 
-  function checkCommentsCount () {
+  const checkCommentsCount = () => {
     if (commentsCount === comments.length) {
       loadMoreButton.classList.add('hidden');
       loadMoreButton.removeEventListener('click', onLoadMoreClick);
@@ -45,9 +45,9 @@ const renderComments = (comments) => {
       loadMoreButton.classList.remove('hidden');
       loadMoreButton.addEventListener('click', onLoadMoreClick);
     }
-  }
+  };
 
-  function addComments () {
+  const addComments = () => {
     const startIndex = commentsCount;
     commentsCount = Math.min(comments.length, commentsCount + DEFAULT_COMMENTS_COUNT);
 
@@ -63,7 +63,7 @@ const renderComments = (comments) => {
 
     commentsContainer.appendChild(commentsFragment);
     checkCommentsCount();
-  }
+  };
 
   function onLoadMoreClick () {
     addComments();
