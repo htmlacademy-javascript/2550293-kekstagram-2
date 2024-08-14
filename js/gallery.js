@@ -5,7 +5,6 @@ const picturesContainer = document.querySelector('.pictures');
 const initGallery = (photos) => {
 
   picturesContainer.addEventListener('click', (evt) => {
-    evt.preventDefault();
     const pictureElement = evt.target.closest('.picture');
     if (!pictureElement) {
       return;
