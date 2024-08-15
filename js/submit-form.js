@@ -65,7 +65,7 @@ function closeForm() {
 }
 
 function onEscKeydown(evt) {
-  if (isEscapeKey(evt) && inputHashtags !== document.activeElement && textDescription === document.activeElement) {
+  if (isEscapeKey(evt) && inputHashtags !== document.activeElement && textDescription !== document.activeElement) {
     closeForm();
   }
 }

@@ -48,7 +48,7 @@ const pristine = new Pristine(imgUploadForm, {
 });
 
 const getHashtagsFromString = (value) =>
-  getHashtagsFromString(value);
+  value.split(' ').filter(Boolean);
 
 const validateHashtagMaxLength = (value) =>
   getHashtagsFromString(value).every((hashtag) => hashtag.length <= HashtagsRules.MAX_LENGTH);
