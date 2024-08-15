@@ -719,6 +719,9 @@ main {
   position: relative;
 }
 
+.form__item--invalid {
+  color: rgb(255, 0, 0);
+}
 
 /**
  * Кнопка для отправки изображения
