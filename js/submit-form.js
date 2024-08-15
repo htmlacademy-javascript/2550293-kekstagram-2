@@ -41,15 +41,21 @@ const imgUploadForm = document.querySelector('.img-upload__form');
 const inputHashtags = document.querySelector('.text__hashtags');
 const textDescription = document.querySelector('.text__description');
 
-function openForm() {
-  textDescription.removeAttribute('required');
+const addEventListeners = () => {
+  closeButton.addEventListener('click', onCloseButtonClick);
+  document.addEventListener('keydown', onEscKeydown);
+};
+
+const removeEventListeners = () => {
+  closeButton.removeEventListener('click', onCloseButtonClick);
+  document.removeEventListener('keydown', onEscKeydown);
+};
+
+const openForm = () => {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   addEventListeners();
-  imgUploadForm.method = 'POST';
-  imgUploadForm.enctype = 'multipart/form-data';
-  imgUploadForm.action = 'https://31.javascript.htmlacademy.pro/kekstagram';
-}
+};
 
 function closeForm() {
   imgUploadOverlay.classList.add('hidden');
@@ -58,31 +64,16 @@ function closeForm() {
   removeEventListeners();
 }
 
-function addEventListeners() {
-  closeButton.addEventListener('click', onButtonClick);
-  document.addEventListener('keydown', onEscKeydown);
-}
-
-function removeEventListeners() {
-  closeButton.removeEventListener('click', onButtonClick);
-  document.removeEventListener('keydown', onEscKeydown);
-}
-
 function onEscKeydown(evt) {
-  if (isEscapeKey(evt)) {
-    if (inputHashtags === document.activeElement || textDescription === document.activeElement) {
-      evt.preventDefault();
-    } else {
-      closeForm();
-    }
+  if (isEscapeKey(evt) && inputHashtags !== document.activeElement && textDescription === document.activeElement) {
+    closeForm();
   }
 }
 
-function onButtonClick() {
+function onCloseButtonClick() {
   closeForm();
 }
 
-imgUploadInput.addEventListener('change', (evt) => {
+imgUploadForm.addEventListener('change', () => {
   openForm();
-  evt.preventDefault();
 });
