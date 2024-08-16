@@ -1,4 +1,5 @@
 import { isEscapeKey } from './util.js';
+import { resetValidation } from './validation.js';
 /*
 (Приписание атрибутов != AJAX-запросу)
 +№1
@@ -61,6 +62,8 @@ function closeForm() {
   imgUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   imgUploadInput.value = '';
+  imgUploadForm.reset();
+  resetValidation();
   removeEventListeners();
 }
 

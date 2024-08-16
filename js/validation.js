@@ -94,8 +94,14 @@ function validTextDescriptionMaxLength(value) {
   return value.length <= DESCRIPTION_MAX_LENGTH;
 }
 
+const resetValidation = () => {
+  pristine.reset();
+};
+
 imgUploadForm.addEventListener('submit', (evt) => {
   if (!pristine.validate()) {
     evt.preventDefault();
   }
 });
+
+export { resetValidation };
