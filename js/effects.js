@@ -34,6 +34,14 @@
   т. е. логика по определению уровня насыщенности должна срабатывать не только при «перемещении» слайдера,
   но и при переключении фильтров.
 */
+const sliderConfig = {
+  none: { range: [0, 1], step: 0.1 },
+  chrome: { range: [0, 1], step: 0.1 },
+  sepia: { range: [0, 1], step: 0.1 },
+  heat: { range: [1, 3], step: 0.1 },
+  marvin: { range: [0, 100], step: 1 },
+  phobos: { range: [0, 3], step: 0.1 },
+};
 
 const effectsConfig = {
   chrome: { filter: 'grayscale', range: [0, 1], step: 0.1, format: (value) => value },
@@ -52,14 +60,14 @@ const effectLevelContainer = document.querySelector('.img-upload__effect-level')
 effectLevelContainer.classList.add('hidden');
 
 noUiSlider.create(slider, {
-  start: 1,
+  start: sliderConfig.none.range[1],
   range: {
-    min: 0,
-    max: 1,
+    min: sliderConfig.none.range[0],
+    max: sliderConfig.none.range[1],
   },
-  step: 0.1,
+  step: sliderConfig.none.step,
   format: {
-    to: (value) => value.toFixed(1),
+    to: (value) => effectsConfig.none.format(value).toFixed(1),
     from: (value) => parseFloat(value),
   },
 });
@@ -96,14 +104,14 @@ const applyEffect = (effectName) => {
 const resetEffect = () => {
   imgPreview.style.filter = '';
   effectLevelValue.value = '';
+  effectLevelContainer.classList.add('hidden');
 };
 
 effectsContainer.addEventListener('click', (evt) => {
   const target = evt.target;
 
   if (target.classList.contains('effects__radio')) {
-    if (target.id === 'none') {
-      effectLevelContainer.classList.add('hidden');
+    if (target.id === 'effect-none') {
       resetEffect();
     } else {
       effectLevelContainer.classList.remove('hidden');
