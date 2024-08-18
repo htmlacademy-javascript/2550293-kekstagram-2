@@ -34,21 +34,43 @@
   т. е. логика по определению уровня насыщенности должна срабатывать не только при «перемещении» слайдера,
   но и при переключении фильтров.
 */
-const sliderConfig = {
-  none: { range: [0, 1], step: 0.1 },
-  chrome: { range: [0, 1], step: 0.1 },
-  sepia: { range: [0, 1], step: 0.1 },
-  heat: { range: [1, 3], step: 0.1 },
-  marvin: { range: [0, 100], step: 1 },
-  phobos: { range: [0, 3], step: 0.1 },
-};
-
 const effectsConfig = {
-  chrome: { filter: 'grayscale', range: [0, 1], step: 0.1, format: (value) => value },
-  sepia: { filter: 'sepia', range: [0, 1], step: 0.1, format: (value) => value },
-  heat: { filter: 'brightness', range: [1, 3], step: 0.1, format: (value) => value },
-  marvin: { filter: 'invert', range: [0, 100], step: 1, format: (value) => `${value}%` },
-  phobos: { filter: 'blur', range: [0, 3], step: 0.1, format: (value) => `${value}px` },
+  none: {
+    filter: 'none',
+    range: [0, 1],
+    step: 0.1,
+    format: (value) => value,
+  },
+  chrome: {
+    filter: 'grayscale',
+    range: [0, 1],
+    step: 0.1,
+    format: (value) => value,
+  },
+  sepia: {
+    filter: 'sepia',
+    range: [0, 1],
+    step: 0.1,
+    format: (value) => value,
+  },
+  heat: {
+    filter: 'brightness',
+    range: [1, 3],
+    step: 0.1,
+    format: (value) => value,
+  },
+  marvin: {
+    filter: 'invert',
+    range: [0, 100],
+    step: 1,
+    format: (value) => `${value}%`,
+  },
+  phobos: {
+    filter: 'blur',
+    range: [0, 3],
+    step: 0.1,
+    format: (value) => `${value}px`,
+  },
 };
 
 const slider = document.querySelector('.effect-level__slider');
@@ -59,15 +81,17 @@ const effectLevelContainer = document.querySelector('.img-upload__effect-level')
 
 effectLevelContainer.classList.add('hidden');
 
+const defaultEffect = effectsConfig.none;
+
 noUiSlider.create(slider, {
-  start: sliderConfig.none.range[1],
+  start: defaultEffect.range[1],
   range: {
-    min: sliderConfig.none.range[0],
-    max: sliderConfig.none.range[1],
+    min: defaultEffect.range[0],
+    max: defaultEffect.range[1],
   },
-  step: sliderConfig.none.step,
+  step: defaultEffect.step,
   format: {
-    to: (value) => effectsConfig.none.format(value).toFixed(1),
+    to: (value) => value.toFixed(1),
     from: (value) => parseFloat(value),
   },
 });
