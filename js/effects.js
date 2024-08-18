@@ -35,27 +35,21 @@
   но и при переключении фильтров.
 */
 
-const SCALE_STEP = 25;
-const MAX_STEP = 100;
-
 const effectsConfig = {
-  'effect-chrome': { filter: 'grayscale', range: [0, 1], step: 0.1, format: (value) => `${value}` },
-  'effect-sepia': { filter: 'sepia', range: [0, 1], step: 0.1, format: (value) => `${value}` },
-  'effect-heat': { filter: 'brightness', range: [1, 3], step: 0.1, format: (value) => `${value}` },
-  'effect-marvin': { filter: 'invert', range: [0, 1], step: 0.01, format: (value) => `${value * 100}%` },
+  'effect-chrome': { filter: 'grayscale', range: [0, 1], step: 0.1, format: (value) => value },
+  'effect-sepia': { filter: 'sepia', range: [0, 1], step: 0.1, format: (value) => value },
+  'effect-heat': { filter: 'brightness', range: [1, 3], step: 0.1, format: (value) => value },
+  'effect-marvin': { filter: 'invert', range: [0, 100], step: 1, format: (value) => `${value}%` },
   'effect-phobos': { filter: 'blur', range: [0, 3], step: 0.1, format: (value) => `${value}px` },
 };
 
-const buttonScaleBigger = document.querySelector('.scale__control--bigger');
-const buttonScaleSmaller = document.querySelector('.scale__control--smaller');
-const inputScaleValue = document.querySelector('.scale__control--value');
-const imgPreview = document.querySelector('.img-upload__preview');
 const slider = document.querySelector('.effect-level__slider');
-const img = imgPreview.querySelector('img');
+const imgPreview = document.querySelector('.img-upload__preview img');
 const effectLevelValue = document.querySelector('.effect-level__value');
+const effectsContainer = document.querySelector('.effects__list');
+const effectLevelContainer = document.querySelector('.img-upload__effect-level');
 
-
-slider.setAttribute('disabled', true);
+effectLevelContainer.classList.add('hidden');
 
 noUiSlider.create(slider, {
   start: 1,
@@ -86,47 +80,38 @@ const applyEffect = (effectId) => {
       },
     });
 
-    slider.removeAttribute('disabled');
+    const initialValue = slider.noUiSlider.get();
+    imgPreview.style.filter = `${effect.filter}(${effect.format(initialValue)})`;
+    effectLevelValue.value = initialValue;
 
-    slider.noUiSlider.off('update'); // Удаляем предыдущие апдейты
+    // Применение эффекта в реальном времени
+    slider.noUiSlider.off('update');
     slider.noUiSlider.on('update', (values, handle) => {
-      const value = Number(values[handle]);
-      img.style.filter = `${effect.filter}(${effect.format(value)})`;
-      effectLevelValue.value = value;
+      const updatedValue = Number(values[handle]);
+      imgPreview.style.filter = `${effect.filter}(${effect.format(updatedValue)})`;
+      effectLevelValue.value = updatedValue;
     });
-
-    effectLevelValue.value = slider.noUiSlider.get();
   }
 };
 
-document.querySelectorAll('.effects__radio').forEach((radio) => {
-  radio.addEventListener('click', () => {
-    if (radio.id === 'effect-none') {
-      slider.setAttribute('disabled', true);
-      img.style.filter = '';
-      effectLevelValue.value = '';
-    } else {
-      applyEffect(radio.id);
+const resetEffect = () => {
+  imgPreview.style.filter = '';
+  effectLevelValue.value = '';
+};
 
+
+effectsContainer.addEventListener('click', (evt) => {
+  const target = evt.target;
+
+  if (target.classList.contains('effects__radio')) {
+    if (target.id === 'effect-none') {
+      effectLevelContainer.classList.add('hidden');
+      resetEffect();
+    } else {
+      effectLevelContainer.classList.remove('hidden');
+      applyEffect(target.id);
     }
-  });
+  }
 });
 
-
-// Масштабирование изображения
-const updateScale = (direction) => {
-  let currentValue = parseInt(inputScaleValue.value, 10);
-
-  if (direction === 'smaller' && currentValue > SCALE_STEP) {
-    currentValue -= SCALE_STEP;
-  } else if (direction === 'bigger' && currentValue < MAX_STEP) {
-    currentValue += SCALE_STEP;
-  }
-
-  inputScaleValue.value = `${currentValue}%`;
-  imgPreview.style.transform = `scale(${currentValue / MAX_STEP})`;
-};
-
-buttonScaleSmaller.addEventListener('click', () => updateScale('smaller'));
-buttonScaleBigger.addEventListener('click', () => updateScale('bigger'));
-
+export { resetEffect };
