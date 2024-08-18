@@ -1,3 +1,4 @@
+
 const Scale = {
   STEP: 25,
   MIN: 25,
@@ -23,7 +24,13 @@ const updateScale = (direction) => {
   imgPreview.style.transform = `scale(${currentValue / Scale.MAX})`;
 };
 
+const resetScale = () => {
+  inputScaleValue.value = '100%';
+  imgPreview.style.transform = 'scale(1)';
+};
 
 buttonScaleSmaller.addEventListener('click', () => updateScale('smaller'));
 buttonScaleBigger.addEventListener('click', () => updateScale('bigger'));
+
+export { resetScale };
 
