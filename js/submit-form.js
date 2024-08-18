@@ -1,4 +1,7 @@
 import { isEscapeKey } from './util.js';
+import { resetValidation } from './validation.js';
+import { resetEffect } from './effects.js';
+import { resetScale } from './scale.js';
 /*
 (Приписание атрибутов != AJAX-запросу)
 +№1
@@ -61,6 +64,10 @@ function closeForm() {
   imgUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   imgUploadInput.value = '';
+  imgUploadForm.reset();
+  resetScale(); // Сброс масштаба
+  resetEffect(); // Сброс эффекта
+  resetValidation();
   removeEventListeners();
 }
 
