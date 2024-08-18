@@ -36,11 +36,11 @@
 */
 
 const effectsConfig = {
-  'effect-chrome': { filter: 'grayscale', range: [0, 1], step: 0.1, format: (value) => value },
-  'effect-sepia': { filter: 'sepia', range: [0, 1], step: 0.1, format: (value) => value },
-  'effect-heat': { filter: 'brightness', range: [1, 3], step: 0.1, format: (value) => value },
-  'effect-marvin': { filter: 'invert', range: [0, 100], step: 1, format: (value) => `${value}%` },
-  'effect-phobos': { filter: 'blur', range: [0, 3], step: 0.1, format: (value) => `${value}px` },
+  chrome: { filter: 'grayscale', range: [0, 1], step: 0.1, format: (value) => value },
+  sepia: { filter: 'sepia', range: [0, 1], step: 0.1, format: (value) => value },
+  heat: { filter: 'brightness', range: [1, 3], step: 0.1, format: (value) => value },
+  marvin: { filter: 'invert', range: [0, 100], step: 1, format: (value) => `${value}%` },
+  phobos: { filter: 'blur', range: [0, 3], step: 0.1, format: (value) => `${value}px` },
 };
 
 const slider = document.querySelector('.effect-level__slider');
@@ -64,8 +64,8 @@ noUiSlider.create(slider, {
   },
 });
 
-const applyEffect = (effectId) => {
-  const effect = effectsConfig[effectId];
+const applyEffect = (effectName) => {
+  const effect = effectsConfig[effectName];
   if (effect) {
     slider.noUiSlider.updateOptions({
       range: {
@@ -84,7 +84,6 @@ const applyEffect = (effectId) => {
     imgPreview.style.filter = `${effect.filter}(${effect.format(initialValue)})`;
     effectLevelValue.value = initialValue;
 
-    // Применение эффекта в реальном времени
     slider.noUiSlider.off('update');
     slider.noUiSlider.on('update', (values, handle) => {
       const updatedValue = Number(values[handle]);
@@ -99,17 +98,16 @@ const resetEffect = () => {
   effectLevelValue.value = '';
 };
 
-
 effectsContainer.addEventListener('click', (evt) => {
   const target = evt.target;
 
   if (target.classList.contains('effects__radio')) {
-    if (target.id === 'effect-none') {
+    if (target.id === 'none') {
       effectLevelContainer.classList.add('hidden');
       resetEffect();
     } else {
       effectLevelContainer.classList.remove('hidden');
-      applyEffect(target.id);
+      applyEffect(target.value);
     }
   }
 });

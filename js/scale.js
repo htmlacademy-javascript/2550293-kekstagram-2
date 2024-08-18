@@ -11,6 +11,11 @@ const buttonScaleSmaller = document.querySelector('.scale__control--smaller');
 const inputScaleValue = document.querySelector('.scale__control--value');
 const imgPreview = document.querySelector('.img-upload__preview img');
 
+const setScale = (value) => {
+  inputScaleValue.value = `${value}%`;
+  imgPreview.style.transform = `scale(${value / Scale.MAX})`;
+};
+
 const updateScale = (direction) => {
   let currentValue = parseInt(inputScaleValue.value, 10);
 
@@ -20,13 +25,12 @@ const updateScale = (direction) => {
     currentValue += Scale.STEP;
   }
 
-  inputScaleValue.value = `${currentValue}%`;
-  imgPreview.style.transform = `scale(${currentValue / Scale.MAX})`;
+  setScale(currentValue);
 };
 
+
 const resetScale = () => {
-  inputScaleValue.value = '100%';
-  imgPreview.style.transform = 'scale(1)';
+  setScale(Scale.DEFAULT);
 };
 
 buttonScaleSmaller.addEventListener('click', () => updateScale('smaller'));
