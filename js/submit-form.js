@@ -91,7 +91,9 @@ function closeForm() {
 }
 
 function onEscKeydown(evt) {
-  if (isEscapeKey(evt) && inputHashtags !== document.activeElement && textDescription !== document.activeElement) {
+  const errorContainer = document.querySelector('.error'); // Проверяем наличие окна с ошибкой
+
+  if (isEscapeKey(evt) && !errorContainer && inputHashtags !== document.activeElement && textDescription !== document.activeElement) {
     closeForm();
   }
 }
