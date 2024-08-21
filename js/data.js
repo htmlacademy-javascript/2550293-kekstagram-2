@@ -87,4 +87,5 @@ const createPhoto = (id) => ({
 
 const createPhotos = () => Array.from({ length: NUMBER_PHOTOS }, (item, index) => createPhoto(index + 1));
 
+
 export { createPhotos };

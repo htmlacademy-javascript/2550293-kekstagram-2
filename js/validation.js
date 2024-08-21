@@ -12,10 +12,10 @@ const textDescription = document.querySelector('.text__description');
 
 const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
-  errorClass: 'form__item--invalid',
+  errorClass: 'img-upload__field-wrapper--error',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextTag: 'div',
-  errorTextClass: 'form__item--invalid'
+  errorTextClass: 'img-upload__field-wrapper--error'
 });
 
 const getHashtagsFromString = (value) =>
@@ -42,7 +42,6 @@ const validateHashtagSymbols = (value) => getHashtagsFromString(value).every((ha
 const validateHashtagMinLength = (value) =>
   getHashtagsFromString(value).every((hashtag) => {
     const hashtagPart = hashtag.slice(1);
-    // .trim();
     return hashtagPart.length > 0;
   });
 
@@ -51,7 +50,9 @@ const validateMaxHashtags = (value) => {
   return hashtags.length <= HashtagsRules.MAX_AMOUNT;
 };
 
+const validateHashtagsRequired = (value) => value.trim() !== '';
 
+pristine.addValidator(inputHashtags, validateHashtagsRequired, 'Поле хештегов не может быть пустым', 0, true);
 pristine.addValidator(inputHashtags, validateMaxHashtags, `Максимальное количество хештегов не должно превышать ${HashtagsRules.MAX_AMOUNT}`, 1, true);
 pristine.addValidator(inputHashtags, validateHashtagMaxLength, `Максимальное количество символов не должно превышать ${HashtagsRules.MAX_LENGTH}`, 2, true);
 pristine.addValidator(inputHashtags, validateHashtagStartWith, 'Хештег должен начинаться с символа "#" (решетка)', 3, true);
@@ -69,10 +70,5 @@ const resetValidation = () => {
   pristine.reset();
 };
 
-imgUploadForm.addEventListener('submit', (evt) => {
-  if (!pristine.validate()) {
-    evt.preventDefault();
-  }
-});
 
-export { resetValidation };
+export { resetValidation, pristine};
