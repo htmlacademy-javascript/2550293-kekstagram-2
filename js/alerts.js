@@ -4,23 +4,22 @@ const LOAD_ERROR_DISPLAY_TIME = 5000;
 const errorOnLoadTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-const successButton = successTemplate.querySelector('.success__button');
-const errorButton = errorTemplate.querySelector('.error__button');
 
 const ResultTypes = {
   success: {
     template: successTemplate,
-    button: successButton
+    buttonClass: '.success__button'
   },
   error: {
     template: errorTemplate,
-    button: errorButton
+    buttonClass: '.error__button'
   }
 };
 
 const showSubmissionMessage = (type) => {
-  const { template, button } = ResultTypes[type];
+  const { template, buttonClass } = ResultTypes[type];
   const messageContainer = template.cloneNode(true);
+  const button = messageContainer.querySelector(buttonClass);
 
   const closeMessage = () => {
     messageContainer.remove();
