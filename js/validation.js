@@ -40,10 +40,9 @@ const validateHashtagSymbols = (value) => getHashtagsFromString(value).every((ha
 );
 
 const validateHashtagMinLength = (value) =>
-  getHashtagsFromString(value).every((hashtag) => {
-    const hashtagPart = hashtag.slice(1);
-    return hashtagPart.length > 0;
-  });
+  getHashtagsFromString(value).every((hashtag) =>
+    !hashtag.startsWith('#') || hashtag.slice(1).length > 0
+  );
 
 const validateMaxHashtags = (value) => {
   const hashtags = getHashtagsFromString(value);
@@ -51,8 +50,8 @@ const validateMaxHashtags = (value) => {
 };
 
 pristine.addValidator(inputHashtags, validateMaxHashtags, `Максимальное количество хештегов не должно превышать ${HashtagsRules.MAX_AMOUNT}`, 1, true);
-pristine.addValidator(inputHashtags, validateHashtagMaxLength, `Максимальное количество символов не должно превышать ${HashtagsRules.MAX_LENGTH}`, 2, true);
-pristine.addValidator(inputHashtags, validateHashtagStartWith, 'Хештег должен начинаться с символа "#" (решетка)', 3, true);
+pristine.addValidator(inputHashtags, validateHashtagStartWith, 'Хештег должен начинаться с символа "#" (решетка)', 2, true);
+pristine.addValidator(inputHashtags, validateHashtagMaxLength, `Максимальное количество символов не должно превышать ${HashtagsRules.MAX_LENGTH}`, 3, true);
 pristine.addValidator(inputHashtags, validateHashtagMinLength, 'Хештег не может состоять только из символа "#" (решётка)', 4, true);
 pristine.addValidator(inputHashtags, validateHashtagSymbols, 'Строка после решётки должна состоять только из букв и чисел', 5, true);
 pristine.addValidator(inputHashtags, validateUniqueHashtags, 'Хештеги не могут повторяться', 6, true);
