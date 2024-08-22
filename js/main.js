@@ -4,23 +4,17 @@ import './submit-form.js';
 import { closeForm } from './submit-form.js';
 import { setUserFormSubmit } from './submit-form.js';
 import { fetchData } from './server-api.js';
-
-const errorOnLoadTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
-const errorOnLoadContainer = errorOnLoadTemplate.cloneNode(true);
+import { showLoadError } from './alerts.js';
 
 fetchData()
   .then((photos) => {
     createMiniatures(photos);
     initGallery(photos);
   })
-  .catch(() => {
-    document.body.append(errorOnLoadContainer);
-    setTimeout(() => {
-      errorOnLoadContainer.remove();
-    }, 5000);
-  });
+  .catch(showLoadError);
 
 setUserFormSubmit(closeForm);
+
 /*++++++
 №1
 ++++++Получение данных:

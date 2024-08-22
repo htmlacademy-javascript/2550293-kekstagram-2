@@ -1,10 +1,10 @@
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesContainer = document.querySelector('.pictures');
 
-const createMiniatures = (similarPhotos) => {
+const createMiniatures = (photosData) => {
 
   const fragment = document.createDocumentFragment();
-  similarPhotos.forEach(({ id, url, likes, comments, description }) => {
+  photosData.forEach(({ id, url, likes, comments, description }) => {
     const pictureElement = pictureTemplate.cloneNode(true);
     const imgElement = pictureElement.querySelector('.picture__img');
     const likesElement = pictureElement.querySelector('.picture__likes');

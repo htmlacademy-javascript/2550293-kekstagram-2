@@ -1,12 +1,31 @@
-const URL_FOR_RECEIPT = 'https://31.javascript.htmlacademy.pro/kekstagram/data';
-const ERROR_MESSAGE = 'Не удалось загрузить данные';
+const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
+const Route = {
+  GET_DATA: '/data',
+  SEND_DATA: '/',
+};
+const Method = {
+  GET: 'GET',
+  POST: 'POST',
+};
+const ErrorText = {
+  GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу.',
+  SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз.',
+};
 
-const fetchData = () => fetch(`${URL_FOR_RECEIPT}`)
-  .then((response) => {
-    if (!response.ok) {
-      return Promise.reject(new Error(ERROR_MESSAGE)); // Чтобы остановить дальнейшую обработку
-    }
-    return response.json();
-  });
+const load = (route, errorText, method = Method.GET, body = null) =>
+  fetch(`${BASE_URL}${route}`, {method, body})
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error();
+      }
+      return response.json();
+    })
+    .catch(() => {
+      throw new Error(errorText);
+    });
 
-export { fetchData };
+const fetchData = () => load(Route.GET_DATA, ErrorText.GET_DATA);
+
+const sendData = (body) => load(Route.SEND_DATA, ErrorText.SEND_DATA, Method.POST, body);
+
+export { fetchData, sendData };

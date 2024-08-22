@@ -3,35 +3,12 @@ import { resetValidation } from './validation.js';
 import { resetEffect } from './effects.js';
 import { resetScale } from './scale.js';
 import { pristine } from './validation.js';
+import { showSubmissionMessage } from './alerts.js';
+import { sendData } from './server-api.js';
 
-
-const URL_FOR_SUBMIT_FORM = 'https://31.javascript.htmlacademy.pro/kekstagram';
-const BUTTON_TEXT = {
-  ENABLE: 'Опубликовать',
-  DISABLE: 'Опубликовываю...',
-  ERROR: 'Ошибка публикации. Попробуйте еще раз',
-};
-
-const myHeaders = new Headers();
-
-const getRequestConfig = (formData) => ({
-  method: 'POST',
-  body: formData,
-  headers: myHeaders,
-  mode: 'no-cors',
-});
-
-const ResultTypes = {
-  success: {
-    templateId: '#success',
-    containerClass: '.success',
-    buttonClass: '.success__button',
-  },
-  error: {
-    templateId: '#error',
-    containerClass: '.error',
-    buttonClass: '.error__button',
-  },
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикую...'
 };
 
 const closeButton = document.querySelector('.img-upload__cancel');
@@ -41,25 +18,16 @@ const imgUploadInput = document.querySelector('.img-upload__input');
 const imgUploadForm = document.querySelector('.img-upload__form');
 const inputHashtags = document.querySelector('.text__hashtags');
 const textDescription = document.querySelector('.text__description');
-
-
 const imgUploadButton = document.querySelector('.img-upload__submit');
-myHeaders.append('Content-Type', 'multipart/form-data');
-
 
 const enableImgUploadButton = () => {
   imgUploadButton.disabled = false;
-  imgUploadButton.textContent = BUTTON_TEXT.ENABLE;
+  imgUploadButton.textContent = SubmitButtonText.IDLE;
 };
 
 const disableImgUploadButton = () => {
   imgUploadButton.disabled = true;
-  imgUploadButton.textContent = BUTTON_TEXT.DISABLE;
-};
-
-const errorImgUploadButton = () => {
-  imgUploadButton.disabled = false;
-  imgUploadButton.textContent = BUTTON_TEXT.ERROR;
+  imgUploadButton.textContent = SubmitButtonText.SENDING;
 };
 
 const addEventListeners = () => {
@@ -76,7 +44,6 @@ const openForm = () => {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   addEventListeners();
-  enableImgUploadButton();
 };
 
 function closeForm() {
@@ -107,59 +74,27 @@ imgUploadForm.addEventListener('change', () => {
 });
 
 
-const submitFormResult = (type) => {
-  const { templateId, containerClass, buttonClass } = ResultTypes[type];
-
-  const formTemplate = document.querySelector(templateId).content.querySelector(containerClass);
-  const submitContainer = formTemplate.cloneNode(true);
-  const button = submitContainer.querySelector(buttonClass);
-
-  const closeWindow = () => {
-    submitContainer.remove();
-    document.removeEventListener('keydown', onEscKeydownClick);
-  };
-
-  function onEscKeydownClick (event) {
-    if (isEscapeKey(event)) {
-      closeWindow();
-    }
-  }
-
-  document.body.append(submitContainer);
-
-  button.addEventListener('click', closeWindow);
-
-  document.addEventListener('keydown', onEscKeydownClick);
-
-  submitContainer.addEventListener('click', (event) => {
-    if (event.target === submitContainer) {
-      closeWindow();
-    }
-  });
-};
-
 const setUserFormSubmit = (onSuccess) => {
   imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     const isValid = pristine.validate();
-    if (!isValid) {
-      errorImgUploadButton();
-      submitFormResult('error');
-    }
 
     if (isValid) {
       disableImgUploadButton();
       const formData = new FormData(evt.target);
-      submitFormResult('success');
 
-      fetch(
-        `${URL_FOR_SUBMIT_FORM}`, getRequestConfig(formData))
-        .then(onSuccess)
+      sendData(formData)
+        .then(() => {
+          showSubmissionMessage('success');
+          onSuccess();
+        })
         .catch(() => {
-          submitFormResult('error');
+          showSubmissionMessage('error');
         })
         .finally(enableImgUploadButton);
+    } else {
+      showSubmissionMessage('error');
     }
   });
 };

@@ -50,9 +50,6 @@ const validateMaxHashtags = (value) => {
   return hashtags.length <= HashtagsRules.MAX_AMOUNT;
 };
 
-const validateHashtagsRequired = (value) => value.trim() !== '';
-
-pristine.addValidator(inputHashtags, validateHashtagsRequired, 'Поле хештегов не может быть пустым', 0, true);
 pristine.addValidator(inputHashtags, validateMaxHashtags, `Максимальное количество хештегов не должно превышать ${HashtagsRules.MAX_AMOUNT}`, 1, true);
 pristine.addValidator(inputHashtags, validateHashtagMaxLength, `Максимальное количество символов не должно превышать ${HashtagsRules.MAX_LENGTH}`, 2, true);
 pristine.addValidator(inputHashtags, validateHashtagStartWith, 'Хештег должен начинаться с символа "#" (решетка)', 3, true);
