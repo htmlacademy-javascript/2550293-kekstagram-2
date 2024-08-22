@@ -93,8 +93,6 @@ const setUserFormSubmit = (onSuccess) => {
           showSubmissionMessage('error');
         })
         .finally(enableImgUploadButton);
-    } else {
-      showSubmissionMessage('error');
     }
   });
 };

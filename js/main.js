@@ -4,14 +4,14 @@ import './submit-form.js';
 import { closeForm } from './submit-form.js';
 import { setUserFormSubmit } from './submit-form.js';
 import { fetchData } from './server-api.js';
-import { showLoadError } from './alerts.js';
+import { uploadErrorTemplate } from './alerts.js';
 
 fetchData()
   .then((photos) => {
     createMiniatures(photos);
     initGallery(photos);
   })
-  .catch(showLoadError);
+  .catch(uploadErrorTemplate);
 
 setUserFormSubmit(closeForm);
 

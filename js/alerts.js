@@ -1,34 +1,33 @@
 import { isEscapeKey } from './util';
+const LOAD_ERROR_DISPLAY_TIME = 5000;
 
+const errorOnLoadTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+const successButton = successTemplate.querySelector('.success__button');
+const errorButton = errorTemplate.querySelector('.error__button');
 
 const ResultTypes = {
   success: {
-    templateId: '#success',
-    containerClass: '.success',
-    buttonClass: '.success__button',
+    template: successTemplate,
+    button: successButton
   },
   error: {
-    templateId: '#error',
-    containerClass: '.error',
-    buttonClass: '.error__button',
-  },
+    template: errorTemplate,
+    button: errorButton
+  }
 };
 
-const LOAD_ERROR_DISPLAY_TIME = 5000;
-
 const showSubmissionMessage = (type) => {
-  const { templateId, containerClass, buttonClass } = ResultTypes[type];
-
-  const messageTemplate = document.querySelector(templateId).content.querySelector(containerClass);
-  const messageContainer = messageTemplate.cloneNode(true);
-  const button = messageContainer.querySelector(buttonClass);
+  const { template, button } = ResultTypes[type];
+  const messageContainer = template.cloneNode(true);
 
   const closeMessage = () => {
     messageContainer.remove();
-    document.removeEventListener('keydown', onEscKeydownClick);
+    document.removeEventListener('keydown', onEscKeydown);
   };
 
-  function onEscKeydownClick (event) {
+  function onEscKeydown(event) {
     if (isEscapeKey(event)) {
       closeMessage();
     }
@@ -40,7 +39,7 @@ const showSubmissionMessage = (type) => {
     closeMessage();
   });
 
-  document.addEventListener('keydown', onEscKeydownClick);
+  document.addEventListener('keydown', onEscKeydown);
 
   messageContainer.addEventListener('click', (event) => {
     if (event.target === messageContainer) {
@@ -49,8 +48,7 @@ const showSubmissionMessage = (type) => {
   });
 };
 
-const showLoadError = () => {
-  const errorOnLoadTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
+const uploadErrorTemplate = () => {
   const errorOnLoadContainer = errorOnLoadTemplate.cloneNode(true);
 
   document.body.append(errorOnLoadContainer);
@@ -59,4 +57,4 @@ const showLoadError = () => {
   }, LOAD_ERROR_DISPLAY_TIME);
 };
 
-export { showSubmissionMessage, showLoadError };
+export { showSubmissionMessage, uploadErrorTemplate };
