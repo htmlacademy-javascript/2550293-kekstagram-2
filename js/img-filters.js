@@ -46,14 +46,12 @@ const discussedFilter = imgFilters.querySelector('#filter-discussed');
 const imgFiltersButtons = imgFilters.querySelector('.img-filters__form');
 
 
-const addActiveButtons = (...activeButtons) => {
+const addActiveButtons = (activeButtons) => {
   for(const buttons of imgFiltersButtons) {
     buttons.classList.remove('img-filters__button--active');
   }
 
-  for(const button of activeButtons) {
-    button.classList.add('img-filters__button--active');
-  }
+  activeButtons.classList.add('img-filters__button--active');
 };
 
 const renderPhotos = (photosToRender) => {
