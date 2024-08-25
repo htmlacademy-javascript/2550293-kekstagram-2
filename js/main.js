@@ -6,7 +6,6 @@ import { setUserFormSubmit } from './submit-form.js';
 import { fetchData } from './server-api.js';
 import { uploadErrorTemplate } from './alerts.js';
 import { setFilters } from './img-filters.js';
-import { imgFilters } from './img-filters.js';
 import './user-upload-image.js';
 
 fetchData()
@@ -14,12 +13,12 @@ fetchData()
     createMiniatures(photos);
     initGallery(photos);
     setFilters(photos);
-    imgFilters.classList.remove('img-filters--inactive');
   })
   .catch(uploadErrorTemplate);
 setUserFormSubmit(closeForm);
 
-// setUserFormSubmit(() => {
+// По идеи уходят данные с последующей новой перерисовкой(Не работает) ----->
+// -----> setUserFormSubmit(() => {
 //   closeForm(); // Закрытие формы после успешного аплоада
 //   fetchData() // Повторно загружаем данные с сервера и обновляем миниатюры
 //     .then((photos) => {
