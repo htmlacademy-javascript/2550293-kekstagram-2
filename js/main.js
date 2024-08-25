@@ -16,15 +16,3 @@ fetchData()
   })
   .catch(uploadErrorTemplate);
 setUserFormSubmit(closeForm);
-
-// По идеи уходят данные с последующей новой перерисовкой(Не работает) ----->
-// -----> setUserFormSubmit(() => {
-//   closeForm(); // Закрытие формы после успешного аплоада
-//   fetchData() // Повторно загружаем данные с сервера и обновляем миниатюры
-//     .then((photos) => {
-//       console.log(photos);
-//       createMiniatures(photos);
-//       initGallery(photos);
-//     })
-//     .catch(uploadErrorTemplate);
-// });

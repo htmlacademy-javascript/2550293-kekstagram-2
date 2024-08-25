@@ -28,22 +28,4 @@ const fetchData = () => load(Route.GET_DATA, ErrorText.GET_DATA);
 
 const sendData = (body) => load(Route.SEND_DATA, ErrorText.SEND_DATA, Method.POST, body);
 
-//Просто проверка ---->
-
-// -----> const sendData = (formData) => fetch('https://31.javascript.htmlacademy.pro/kekstagram', {
-//   method: 'POST',
-//   body: formData,
-// })
-//   .then((response) => {
-//     console.log('Response status:', response.status); // Логируем статус ответа
-//     if (!response.ok) {
-//       throw new Error(`${response.status}: ${response.statusText}`);
-//     }
-//     return response.json();
-//   })
-//   .then((data) => {
-//     console.log('Server response data:', data); // Логируем ответ сервера
-//     return data;
-//   });
-
 export { fetchData, sendData };

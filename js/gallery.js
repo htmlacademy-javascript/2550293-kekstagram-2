@@ -14,7 +14,6 @@ const initGallery = (photos) => {
     const photo = photos.find((item) => item.id === id);
     openBigPicture(photo);
 
-
   });
 };
 

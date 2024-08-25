@@ -1,24 +1,21 @@
-/*
-Доработайте форму загрузки изображения так, чтобы в неё можно было загружать фотографию.
+const PHOTO_TYPES = ['png', 'jpeg', 'jpg', 'ico', 'svg', 'webp'];
 
-Выбранная пользователем фотография должна загружаться в поле загрузки файлов в форме загрузки и показываться в окне.
-Изменение размеров и применение фильтра должны применяться для загруженной фотографии.
-
-
-*/
-
-const PHOTO_TYPES = [ 'png', 'jpeg', 'jpg', 'ico', 'svg', 'gif'];
-
-const uploadImg = document.querySelector('.img-upload__input'); //submit Есть
+const uploadImg = document.querySelector('.img-upload__input');
 const userImg = document.querySelector('.img-upload__preview img');
+const effectsPreviews = document.querySelectorAll('.effects__preview');
 
 uploadImg.addEventListener('change', () => {
   const photo = uploadImg.files[0];
   const photoName = photo.name.toLowerCase();
   const isAllowedPhotoType = PHOTO_TYPES.some((type) => photoName.endsWith(type));
 
-  if(isAllowedPhotoType) {
-    userImg.src = URL.createObjectURL(photo);
+  if (isAllowedPhotoType) {
+    const imageUrl = URL.createObjectURL(photo);
+    userImg.src = imageUrl;
+
+    effectsPreviews.forEach((preview) => {
+      preview.style.backgroundImage = `url(${imageUrl})`;
+    });
   }
 });
 
