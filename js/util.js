@@ -18,24 +18,4 @@ function debounce (callback, timeoutDelay) {
     // пока действие совершается чаще, чем переданная задержка timeoutDelay
   };
 }
-
-function throttle (callback, delayBetweenFrames) {
-  let lastTime = 0;
-
-  return (...rest) => {
-    // Получаем текущую дату в миллисекундах,
-    // чтобы можно было в дальнейшем
-    // вычислять разницу между кадрами
-    const now = new Date();
-
-    // Если время между кадрами больше задержки,
-    // вызываем наш колбэк и перезаписываем lastTime
-    // временем "последнего кадра"
-    if (now - lastTime >= delayBetweenFrames) {
-      callback.apply(this, rest);
-      lastTime = now;
-    }
-  };
-}
-
-export { isEscapeKey, debounce, throttle };
+export { isEscapeKey, debounce };

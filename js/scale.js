@@ -1,4 +1,3 @@
-
 const Scale = {
   STEP: 25,
   MIN: 25,
