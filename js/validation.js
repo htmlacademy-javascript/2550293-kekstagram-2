@@ -1,4 +1,3 @@
-
 const HashtagsRules = {
   MAX_LENGTH: 20,
   MAX_AMOUNT: 5

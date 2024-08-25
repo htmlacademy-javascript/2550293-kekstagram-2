@@ -1,7 +1,15 @@
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesContainer = document.querySelector('.pictures');
 
+const clearMiniatures = () => {
+  const pictures = picturesContainer.querySelectorAll('.picture');
+  pictures.forEach((picture) => {
+    picturesContainer.removeChild(picture);
+  });
+};
+
 const createMiniatures = (photosData) => {
+  clearMiniatures();
 
   const fragment = document.createDocumentFragment();
   photosData.forEach(({ id, url, likes, comments, description }) => {
@@ -24,5 +32,6 @@ const createMiniatures = (photosData) => {
   picturesContainer.appendChild(fragment);
 
 };
+
 
 export {createMiniatures};
