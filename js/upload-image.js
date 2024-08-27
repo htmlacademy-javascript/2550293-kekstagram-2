@@ -1,7 +1,7 @@
+import { imgPreview } from './util.js';
 const PHOTO_TYPES = ['png', 'jpeg', 'jpg', 'ico', 'svg', 'webp'];
 
 const uploadImg = document.querySelector('.img-upload__input');
-const userImg = document.querySelector('.img-upload__preview img');
 const effectsPreviews = document.querySelectorAll('.effects__preview');
 
 uploadImg.addEventListener('change', () => {
@@ -11,7 +11,7 @@ uploadImg.addEventListener('change', () => {
 
   if (isAllowedPhotoType) {
     const imageUrl = URL.createObjectURL(photo);
-    userImg.src = imageUrl;
+    imgPreview.src = imageUrl;
 
     effectsPreviews.forEach((preview) => {
       preview.style.backgroundImage = `url(${imageUrl})`;

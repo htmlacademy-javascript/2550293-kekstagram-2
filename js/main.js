@@ -1,12 +1,10 @@
-import { createMiniatures } from './create-miniatures.js';
+import { createMiniatures } from './miniatures.js';
 import { initGallery } from './gallery.js';
-import './submit-form.js';
-import { closeForm } from './submit-form.js';
-import { setUserFormSubmit } from './submit-form.js';
+import { closeForm, setUserFormSubmit } from './form.js';
 import { fetchData } from './server-api.js';
 import { uploadErrorTemplate } from './alerts.js';
-import { setFilters } from './img-filters.js';
-import './user-upload-image.js';
+import { setFilters } from './filters.js';
+import './upload-image.js';
 
 fetchData()
   .then((photos) => {

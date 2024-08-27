@@ -1,4 +1,4 @@
-import './create-miniatures.js';
+import './miniatures.js';
 import { isEscapeKey } from './util.js';
 
 const DEFAULT_COMMENTS_COUNT = 5;
@@ -9,9 +9,8 @@ const elements = {
   likesCount: document.querySelector('.likes-count'),
   closeButton: document.querySelector('.big-picture__cancel'),
   photoDescription: document.querySelector('.social__caption'),
-  body: document.querySelector('body'),
-  totalCountElement: document.querySelector('.social__comment-total-count'),
-  shownCountElement: document.querySelector('.social__comment-shown-count'),
+  totalCount: document.querySelector('.social__comment-total-count'),
+  shownCount: document.querySelector('.social__comment-shown-count'),
   commentTemplate: document.querySelector('#comment-template').content.querySelector('.social__comment'),
   loadMoreButton: document.querySelector('.comments-loader'),
   commentsContainer: document.querySelector('.social__comments'),
@@ -21,21 +20,21 @@ let shownCommentsCount = 0;
 let currentComments = [];
 
 const updateCommentCount = () => {
-  elements.shownCountElement.textContent = shownCommentsCount;
-  elements.totalCountElement.textContent = currentComments.length;
+  elements.shownCount.textContent = shownCommentsCount;
+  elements.totalCount.textContent = currentComments.length;
 };
 
-const createCommentElement = ({ avatar, name, message }) => {
-  const commentElement = elements.commentTemplate.cloneNode(true);
+const createComment = ({ avatar, name, message }) => {
+  const comment = elements.commentTemplate.cloneNode(true);
 
-  const commentPicture = commentElement.querySelector('.social__picture');
-  const commentText = commentElement.querySelector('.social__text');
+  const commentPicture = comment.querySelector('.social__picture');
+  const commentText = comment.querySelector('.social__text');
 
   commentPicture.src = avatar;
   commentPicture.alt = name;
   commentText.textContent = message;
 
-  return commentElement;
+  return comment;
 };
 
 const updateLoadMoreButtonVisibility = () => {
@@ -54,7 +53,7 @@ const renderComments = () => {
   updateCommentCount();
 
   newComments.forEach((comment) => {
-    commentsFragment.appendChild(createCommentElement(comment));
+    commentsFragment.appendChild(createComment(comment));
   });
 
   elements.commentsContainer.appendChild(commentsFragment);
@@ -68,7 +67,7 @@ const onLoadMoreButtonClick = () => {
 
 const openBigPicture = ({ url, likes, description, comments }) => {
   elements.bigPicture.classList.remove('hidden');
-  elements.body.classList.add('modal-open');
+  document.body.classList.add('modal-open');
 
   elements.bigPictureImg.src = url;
   elements.likesCount.textContent = likes;
@@ -87,7 +86,7 @@ const openBigPicture = ({ url, likes, description, comments }) => {
 
 const closePigPicture = () => {
   elements.bigPicture.classList.add('hidden');
-  elements.body.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onEscKeydown);
   elements.loadMoreButton.removeEventListener('click', onLoadMoreButtonClick);

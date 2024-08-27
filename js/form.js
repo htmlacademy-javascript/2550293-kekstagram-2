@@ -13,7 +13,6 @@ const SubmitButtonText = {
 
 const closeButton = document.querySelector('.img-upload__cancel');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
-const body = document.querySelector('body');
 const imgUploadInput = document.querySelector('.img-upload__input');
 const imgUploadForm = document.querySelector('.img-upload__form');
 const inputHashtags = document.querySelector('.text__hashtags');
@@ -27,13 +26,13 @@ const setButtonState = (isDisabled) => {
 
 const openForm = () => {
   imgUploadOverlay.classList.remove('hidden');
-  body.classList.add('modal-open');
+  document.body.classList.add('modal-open');
   toggleEventListeners('add');
 };
 
 const closeForm = () => {
   imgUploadOverlay.classList.add('hidden');
-  body.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
   imgUploadInput.value = '';
   imgUploadForm.reset();
   resetScale();
