@@ -3,7 +3,7 @@ import { resetValidation } from './validation.js';
 import { resetEffect } from './effects.js';
 import { resetScale } from './scale.js';
 import { pristine } from './validation.js';
-import { showSubmissionMessage } from './alerts.js';
+import { showAlert } from './alerts.js';
 import { sendData } from './server-api.js';
 
 const SubmitButtonText = {
@@ -67,11 +67,11 @@ const setUserFormSubmit = (onSuccess) => {
 
       sendData(formData)
         .then(() => {
-          showSubmissionMessage('success');
+          showAlert('success');
           onSuccess();
         })
         .catch(() => {
-          showSubmissionMessage('error');
+          showAlert('error');
         })
         .finally(() => setButtonState(false));
     }

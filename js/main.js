@@ -2,7 +2,7 @@ import { createMiniatures } from './miniatures.js';
 import { initGallery } from './gallery.js';
 import { closeForm, setUserFormSubmit } from './form.js';
 import { fetchData } from './server-api.js';
-import { uploadErrorTemplate } from './alerts.js';
+import { showDataErrorAlert } from './alerts.js';
 import { setFilters } from './filters.js';
 import './upload-image.js';
 
@@ -12,5 +12,5 @@ fetchData()
     initGallery(photos);
     setFilters(photos);
   })
-  .catch(uploadErrorTemplate);
+  .catch(showDataErrorAlert);
 setUserFormSubmit(closeForm);
