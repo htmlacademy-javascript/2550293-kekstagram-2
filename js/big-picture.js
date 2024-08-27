@@ -44,7 +44,7 @@ const updateLoadMoreButtonVisibility = () => {
 };
 
 
-const onRenderComments = () => {
+const renderComments = () => {
   const startIndex = shownCommentsCount;
   shownCommentsCount = Math.min(currentComments.length, shownCommentsCount + DEFAULT_COMMENTS_COUNT);
 
@@ -63,7 +63,7 @@ const onRenderComments = () => {
 };
 
 const onLoadMoreButtonClick = () => {
-  onRenderComments();
+  renderComments();
 };
 
 const openBigPicture = ({ url, likes, description, comments }) => {
@@ -78,7 +78,7 @@ const openBigPicture = ({ url, likes, description, comments }) => {
   currentComments = comments;
   elements.commentsContainer.innerHTML = '';
 
-  onRenderComments();
+  renderComments();
 
   elements.loadMoreButton.addEventListener('click', onLoadMoreButtonClick);
   document.addEventListener('keydown', onEscKeydown, { once: true });
@@ -86,10 +86,10 @@ const openBigPicture = ({ url, likes, description, comments }) => {
 };
 
 function onCloseButtonClick() {
-  onCloseBigPicture();
+  closePigPicture();
 }
 
-function onCloseBigPicture() {
+function closePigPicture() {
   elements.bigPicture.classList.add('hidden');
   elements.body.classList.remove('modal-open');
 
@@ -100,7 +100,7 @@ function onCloseBigPicture() {
 
 function onEscKeydown(evt) {
   if (isEscapeKey(evt)) {
-    onCloseBigPicture();
+    closePigPicture();
   }
 }
 
