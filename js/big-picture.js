@@ -85,17 +85,17 @@ const openBigPicture = ({ url, likes, description, comments }) => {
   elements.closeButton.addEventListener('click', onCloseButtonClick, { once: true });
 };
 
-function onCloseButtonClick() {
-  closePigPicture();
-}
-
-function closePigPicture() {
+const closePigPicture = () => {
   elements.bigPicture.classList.add('hidden');
   elements.body.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onEscKeydown);
   elements.loadMoreButton.removeEventListener('click', onLoadMoreButtonClick);
   elements.closeButton.removeEventListener('click', onCloseButtonClick); // Удаляем обработчик onCloseButtonClick
+};
+
+function onCloseButtonClick() {
+  closePigPicture();
 }
 
 function onEscKeydown(evt) {
