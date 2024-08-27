@@ -20,68 +20,50 @@ const inputHashtags = document.querySelector('.text__hashtags');
 const textDescription = document.querySelector('.text__description');
 const imgUploadButton = document.querySelector('.img-upload__submit');
 
-const enableImgUploadButton = () => {
-  imgUploadButton.disabled = false;
-  imgUploadButton.textContent = SubmitButtonText.IDLE;
-};
-
-const disableImgUploadButton = () => {
-  imgUploadButton.disabled = true;
-  imgUploadButton.textContent = SubmitButtonText.SENDING;
-};
-
-const addEventListeners = () => {
-  closeButton.addEventListener('click', onCloseButtonClick);
-  document.addEventListener('keydown', onEscKeydown);
-};
-
-const removeEventListeners = () => {
-  closeButton.removeEventListener('click', onCloseButtonClick);
-  document.removeEventListener('keydown', onEscKeydown);
+const setButtonState = (isDisabled) => {
+  imgUploadButton.disabled = isDisabled;
+  imgUploadButton.textContent = isDisabled ? SubmitButtonText.SENDING : SubmitButtonText.IDLE;
 };
 
 const openForm = () => {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
-  addEventListeners();
+  toggleEventListeners('add');
 };
 
-function closeForm() {
+const closeForm = () => {
   imgUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   imgUploadInput.value = '';
   imgUploadForm.reset();
-  resetScale(); // Сброс масштаба
-  resetEffect(); // Сброс эффекта
+  resetScale();
+  resetEffect();
   resetValidation();
-  removeEventListeners();
-}
+  toggleEventListeners('remove');
+};
 
-function onEscKeydown(evt) {
-  const errorContainer = document.querySelector('.error'); // Проверяем наличие окна с ошибкой
-
+const onEscKeydown = (evt) => {
+  const errorContainer = document.querySelector('.error');
   if (isEscapeKey(evt) && !errorContainer && inputHashtags !== document.activeElement && textDescription !== document.activeElement) {
     closeForm();
   }
+};
+
+const onCloseButtonClick = () => closeForm();
+
+function toggleEventListeners (action) {
+  closeButton[`${action}EventListener`]('click', onCloseButtonClick);
+  document[`${action}EventListener`]('keydown', onEscKeydown);
 }
 
-function onCloseButtonClick() {
-  closeForm();
-}
-
-imgUploadForm.addEventListener('change', () => {
-  openForm();
-});
-
+imgUploadForm.addEventListener('change', openForm);
 
 const setUserFormSubmit = (onSuccess) => {
   imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
-    const isValid = pristine.validate();
-
-    if (isValid) {
-      disableImgUploadButton();
+    if (pristine.validate()) {
+      setButtonState(true);
       const formData = new FormData(evt.target);
 
       sendData(formData)
@@ -92,10 +74,9 @@ const setUserFormSubmit = (onSuccess) => {
         .catch(() => {
           showSubmissionMessage('error');
         })
-        .finally(enableImgUploadButton);
+        .finally(() => setButtonState(false));
     }
   });
 };
-
 
 export { closeForm, setUserFormSubmit };

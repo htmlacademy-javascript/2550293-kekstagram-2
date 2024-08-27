@@ -43,6 +43,7 @@ const updateLoadMoreButtonVisibility = () => {
   elements.loadMoreButton.classList.toggle('hidden', !shouldShowLoadMore);
 };
 
+
 const renderComments = () => {
   const startIndex = shownCommentsCount;
   shownCommentsCount = Math.min(currentComments.length, shownCommentsCount + DEFAULT_COMMENTS_COUNT);
@@ -61,6 +62,9 @@ const renderComments = () => {
   updateLoadMoreButtonVisibility();
 };
 
+const onLoadMoreButtonClick = () => {
+  renderComments();
+};
 
 const openBigPicture = ({ url, likes, description, comments }) => {
   elements.bigPicture.classList.remove('hidden');
@@ -76,22 +80,27 @@ const openBigPicture = ({ url, likes, description, comments }) => {
 
   renderComments();
 
-  elements.loadMoreButton.addEventListener('click', renderComments);
+  elements.loadMoreButton.addEventListener('click', onLoadMoreButtonClick);
   document.addEventListener('keydown', onEscKeydown, { once: true });
-  elements.closeButton.addEventListener('click', closeBigPicture, { once: true });
+  elements.closeButton.addEventListener('click', onCloseButtonClick, { once: true });
 };
 
-function closeBigPicture() {
+const closePigPicture = () => {
   elements.bigPicture.classList.add('hidden');
   elements.body.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onEscKeydown);
-  elements.loadMoreButton.removeEventListener('click', renderComments);
+  elements.loadMoreButton.removeEventListener('click', onLoadMoreButtonClick);
+  elements.closeButton.removeEventListener('click', onCloseButtonClick); // Удаляем обработчик onCloseButtonClick
+};
+
+function onCloseButtonClick() {
+  closePigPicture();
 }
 
 function onEscKeydown(evt) {
   if (isEscapeKey(evt)) {
-    closeBigPicture();
+    closePigPicture();
   }
 }
 

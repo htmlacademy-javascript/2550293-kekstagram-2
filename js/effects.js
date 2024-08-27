@@ -1,21 +1,21 @@
+const baseEffectConfig = {
+  range: [0, 1],
+  step: 0.1,
+  format: (value) => value,
+};
+
 const effectsConfig = {
   none: {
     filter: 'none',
-    range: [0, 1],
-    step: 0.1,
-    format: (value) => value,
+    ...baseEffectConfig,
   },
   chrome: {
     filter: 'grayscale',
-    range: [0, 1],
-    step: 0.1,
-    format: (value) => value,
+    ...baseEffectConfig,
   },
   sepia: {
     filter: 'sepia',
-    range: [0, 1],
-    step: 0.1,
-    format: (value) => value,
+    ...baseEffectConfig,
   },
   heat: {
     filter: 'brightness',
@@ -47,34 +47,40 @@ effectLevelContainer.classList.add('hidden');
 
 const defaultEffect = effectsConfig.none;
 
-noUiSlider.create(slider, {
-  start: defaultEffect.range[1],
-  range: {
-    min: defaultEffect.range[0],
-    max: defaultEffect.range[1],
-  },
-  step: defaultEffect.step,
-  format: {
-    to: (value) => value.toFixed(1),
-    from: (value) => parseFloat(value),
-  },
-});
+const createSlider = (effect) => {
+  noUiSlider.create(slider, {
+    start: effect.range[1],
+    range: {
+      min: effect.range[0],
+      max: effect.range[1],
+    },
+    step: effect.step,
+    format: {
+      to: (value) => value.toFixed(1),
+      from: (value) => parseFloat(value),
+    },
+  });
+};
+
+const updateSlider = (effect) => {
+  slider.noUiSlider.updateOptions({
+    range: {
+      min: effect.range[0],
+      max: effect.range[1],
+    },
+    start: effect.range[1],
+    step: effect.step,
+    format: {
+      to: (value) => value.toFixed(1),
+      from: (value) => parseFloat(value),
+    },
+  });
+};
 
 const applyEffect = (effectName) => {
   const effect = effectsConfig[effectName];
   if (effect) {
-    slider.noUiSlider.updateOptions({
-      range: {
-        min: effect.range[0],
-        max: effect.range[1],
-      },
-      start: effect.range[1],
-      step: effect.step,
-      format: {
-        to: (value) => value.toFixed(1),
-        from: (value) => parseFloat(value),
-      },
-    });
+    updateSlider(effect);
 
     const initialValue = slider.noUiSlider.get();
     imgPreview.style.filter = `${effect.filter}(${effect.format(initialValue)})`;
@@ -107,5 +113,7 @@ effectsContainer.addEventListener('click', (evt) => {
     }
   }
 });
+
+createSlider(defaultEffect);
 
 export { resetEffect };
