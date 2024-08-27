@@ -3,7 +3,7 @@ import { resetValidation } from './validation.js';
 import { resetEffect } from './effects.js';
 import { resetScale } from './scale.js';
 import { pristine } from './validation.js';
-import { showSubmissionMessage } from './alerts.js';
+import { showAlert } from './alerts.js';
 import { sendData } from './server-api.js';
 
 const SubmitButtonText = {
@@ -13,7 +13,6 @@ const SubmitButtonText = {
 
 const closeButton = document.querySelector('.img-upload__cancel');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
-const body = document.querySelector('body');
 const imgUploadInput = document.querySelector('.img-upload__input');
 const imgUploadForm = document.querySelector('.img-upload__form');
 const inputHashtags = document.querySelector('.text__hashtags');
@@ -27,13 +26,13 @@ const setButtonState = (isDisabled) => {
 
 const openForm = () => {
   imgUploadOverlay.classList.remove('hidden');
-  body.classList.add('modal-open');
+  document.body.classList.add('modal-open');
   toggleEventListeners('add');
 };
 
 const closeForm = () => {
   imgUploadOverlay.classList.add('hidden');
-  body.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
   imgUploadInput.value = '';
   imgUploadForm.reset();
   resetScale();
@@ -68,11 +67,11 @@ const setUserFormSubmit = (onSuccess) => {
 
       sendData(formData)
         .then(() => {
-          showSubmissionMessage('success');
+          showAlert('success');
           onSuccess();
         })
         .catch(() => {
-          showSubmissionMessage('error');
+          showAlert('error');
         })
         .finally(() => setButtonState(false));
     }

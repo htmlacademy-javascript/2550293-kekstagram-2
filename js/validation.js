@@ -47,6 +47,9 @@ const validateMaxHashtags = (value) => {
   const hashtags = getHashtagsFromString(value);
   return hashtags.length <= HashtagsRules.MAX_AMOUNT;
 };
+
+const validTextDescriptionMaxLength = (value) => value.length <= DESCRIPTION_MAX_LENGTH;
+
 pristine.addValidator(inputHashtags, validateHashtagMinLength, 'Хештег не может состоять только из символа "#" (решётка)', 1, true);
 pristine.addValidator(inputHashtags, validateHashtagStartWith, 'Хештег должен начинаться с символа "#" (решетка)', 2, true);
 pristine.addValidator(inputHashtags, validateHashtagMaxLength, `Максимальное количество символов не должно превышать ${HashtagsRules.MAX_LENGTH}`, 3, true);
@@ -55,10 +58,6 @@ pristine.addValidator(inputHashtags, validateHashtagSymbols, 'Строка по�
 pristine.addValidator(inputHashtags, validateUniqueHashtags, 'Хештеги не могут повторяться', 6, true);
 pristine.addValidator(textDescription, validTextDescriptionMaxLength, `Максимальное количество символов не должно превышать ${DESCRIPTION_MAX_LENGTH}`);
 
-
-function validTextDescriptionMaxLength(value) {
-  return value.length <= DESCRIPTION_MAX_LENGTH;
-}
 
 const resetValidation = () => {
   pristine.reset();

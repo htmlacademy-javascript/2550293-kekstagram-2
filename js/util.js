@@ -1,5 +1,6 @@
 const isEscapeKey = (evt) => evt.key === 'Escape';
-
+const imgPreview = document.querySelector('.img-upload__preview img');
+const picturesContainer = document.querySelector('.pictures');
 
 function debounce (callback, timeoutDelay) {
   // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
@@ -18,4 +19,4 @@ function debounce (callback, timeoutDelay) {
     // пока действие совершается чаще, чем переданная задержка timeoutDelay
   };
 }
-export { isEscapeKey, debounce };
+export { isEscapeKey, debounce, imgPreview, picturesContainer };

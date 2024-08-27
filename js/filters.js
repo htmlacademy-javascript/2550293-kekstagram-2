@@ -1,5 +1,5 @@
-import { createMiniatures } from './create-miniatures';
-import { debounce } from './util';
+import { createMiniatures } from './miniatures.js';
+import { debounce } from './util.js';
 
 const PhotoAmountRules = {
   min: 0,

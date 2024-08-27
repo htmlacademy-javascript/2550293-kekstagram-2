@@ -1,3 +1,4 @@
+import { imgPreview } from './util.js';
 const baseEffectConfig = {
   range: [0, 1],
   step: 0.1,
@@ -38,7 +39,6 @@ const effectsConfig = {
 };
 
 const slider = document.querySelector('.effect-level__slider');
-const imgPreview = document.querySelector('.img-upload__preview img');
 const effectLevelValue = document.querySelector('.effect-level__value');
 const effectsContainer = document.querySelector('.effects__list');
 const effectLevelContainer = document.querySelector('.img-upload__effect-level');
